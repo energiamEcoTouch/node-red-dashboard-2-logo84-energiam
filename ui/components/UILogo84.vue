@@ -44,10 +44,8 @@
 
     <!-- Fila inferior: tabla I/O -->
     <div class="l84-panel-io">
-      <div class="l84-section-title">
-        Entradas / Salidas
-        <span v-if="selectedLogo" class="l84-editing">Editando: <strong>{{ selectedLogo }}</strong></span>
-      </div>
+      <div class="l84-section-title">Entradas / Salidas</div>
+      <span v-if="selectedLogo" class="l84-editing">Editando: <strong>{{ selectedLogo }}</strong></span>
       <div v-if="!selectedLogo" class="l84-empty">
         Seleccioná un logo en la tabla de estado
       </div>
@@ -498,9 +496,9 @@ export default {
 
 /* Sección título */
 .l84-section-title {
-  font-size: 13px;
-  font-weight: 600;
-  color: #ddd;
+  font-size: 18px;
+  font-weight: 700;
+  color: #ffffff;
   margin-bottom: 8px;
   display: flex;
   align-items: center;
@@ -556,11 +554,18 @@ export default {
 /* Panel I/O */
 .l84-panel-io {
   width: 100%;
+  background: #1a1a1a;
+  border-radius: 6px;
+  padding: 14px 16px;
+  box-sizing: border-box;
 }
 .l84-editing {
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 400;
-  color: #888;
+  color: #aaa;
+  display: block;
+  margin-top: 2px;
+  margin-bottom: 10px;
 }
 .l84-editing strong {
   color: #5DCAA5;
@@ -574,19 +579,20 @@ export default {
 .l84-table-io th,
 .l84-table-io td {
   text-align: left;
-  padding: 8px 14px;
-  border-bottom: 1px solid #333;
+  padding: 10px 14px;
+  border-bottom: 1px solid #2a2a2a;
 }
 .l84-table-io th {
-  color: #ccc;
-  font-weight: 600;
-  font-size: 13px;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 14px;
 }
 .l84-pin-id {
   font-family: monospace;
-  color: #ccc;
+  color: #ffffff;
   width: 60px;
-  font-size: 13px;
+  font-size: 14px;
+  font-weight: 500;
 }
 .l84-table-io input {
   width: 100%;
@@ -594,7 +600,7 @@ export default {
   border: 1px solid #444;
   border-radius: 4px;
   color: #fff;
-  padding: 5px 8px;
+  padding: 6px 10px;
   font-size: 13px;
   box-sizing: border-box;
 }
