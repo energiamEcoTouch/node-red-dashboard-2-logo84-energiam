@@ -1,0 +1,171 @@
+[
+  {
+    "id": "tab_logo84_sim",
+    "type": "tab",
+    "label": "LOGO84 — Simulador",
+    "disabled": false,
+    "info": "Flujo de prueba para node-red-dashboard-2-logo84-energiam.\nTres dispositivos simulados: logo84tta (8E/4S), logo84tp (12E/8S), logo84pb (8E/4S).\nCada device-simulator genera bits aleatorios → function node arma el formato state.reported → logo84 widget."
+  },
+
+  {
+    "id": "base_logo84",
+    "type": "ui-base",
+    "acceptsClientConfig": ["ui-notification", "ui-control"],
+    "name": "UI Name",
+    "path": "/dashboard",
+    "includeClientData": true,
+    "navigationStyle": "default",
+    "showPathInSidebar": false,
+    "showPageTitle": true,
+    "titleBarStyle": "default"
+  },
+  {
+    "id": "theme_logo84",
+    "type": "ui-theme",
+    "name": "EnergIAM Dark",
+    "colors": {
+      "surface": "#24292e",
+      "primary": "#5DCAA5",
+      "bgPage": "#0d1117",
+      "groupBg": "#161b22",
+      "groupOutline": "#30363d"
+    },
+    "sizes": {
+      "density": "default",
+      "pagePadding": "12px",
+      "groupGap": "12px",
+      "groupBorderRadius": "4px",
+      "widgetGap": "12px"
+    }
+  },
+  {
+    "id": "page_logo84",
+    "type": "ui-page",
+    "name": "Dispositivos",
+    "ui": "base_logo84",
+    "path": "/dispositivos",
+    "icon": "mdi-chip",
+    "layout": "grid",
+    "theme": "theme_logo84",
+    "order": 1,
+    "className": "",
+    "visible": true,
+    "disabled": false
+  },
+  {
+    "id": "group_logo84",
+    "type": "ui-group",
+    "name": "LOGO 8.4",
+    "page": "page_logo84",
+    "width": 12,
+    "height": 1,
+    "order": 1,
+    "className": "",
+    "visible": true,
+    "disabled": false
+  },
+
+  {
+    "id": "logo84_widget",
+    "type": "ui-logo84",
+    "z": "tab_logo84_sim",
+    "name": "LOGO 8.4",
+    "group": "group_logo84",
+    "order": 1,
+    "width": 12,
+    "height": 10,
+    "x": 640,
+    "y": 240,
+    "wires": []
+  },
+
+  {
+    "id": "sim_tta",
+    "type": "device-simulator",
+    "z": "tab_logo84_sim",
+    "name": "logo84tta — 8E / 4S",
+    "topic": "energiam/logo84tta/pub",
+    "template": "{}",
+    "fields": "[{\"key\":\"I1\",\"min\":0,\"max\":1,\"enabled\":true,\"triggerOnChange\":false},{\"key\":\"I2\",\"min\":0,\"max\":1,\"enabled\":true,\"triggerOnChange\":false},{\"key\":\"I3\",\"min\":0,\"max\":1,\"enabled\":true,\"triggerOnChange\":false},{\"key\":\"I4\",\"min\":0,\"max\":1,\"enabled\":true,\"triggerOnChange\":false},{\"key\":\"I5\",\"min\":0,\"max\":1,\"enabled\":true,\"triggerOnChange\":false},{\"key\":\"I6\",\"min\":0,\"max\":1,\"enabled\":true,\"triggerOnChange\":false},{\"key\":\"I7\",\"min\":0,\"max\":1,\"enabled\":true,\"triggerOnChange\":false},{\"key\":\"I8\",\"min\":0,\"max\":1,\"enabled\":true,\"triggerOnChange\":false},{\"key\":\"Q1\",\"min\":0,\"max\":1,\"enabled\":true,\"triggerOnChange\":false},{\"key\":\"Q2\",\"min\":0,\"max\":1,\"enabled\":true,\"triggerOnChange\":false},{\"key\":\"Q3\",\"min\":0,\"max\":1,\"enabled\":true,\"triggerOnChange\":false},{\"key\":\"Q4\",\"min\":0,\"max\":1,\"enabled\":true,\"triggerOnChange\":false}]",
+    "intervalMode": "random",
+    "intervalFixed": 3000,
+    "intervalMin": 2000,
+    "intervalMax": 6000,
+    "startupDelay": 500,
+    "debugActive": false,
+    "x": 180,
+    "y": 140,
+    "wires": [["fmt_tta"]]
+  },
+  {
+    "id": "fmt_tta",
+    "type": "function",
+    "z": "tab_logo84_sim",
+    "name": "→ logo84 format",
+    "func": "const logo = msg.topic.split('/')[1] || 'logo84tta'\nconst flat = msg.payload\nconst reported = { '$logotime': Math.floor(Date.now() / 1000) }\n\nfor (const [key, val] of Object.entries(flat)) {\n    const mI = key.match(/^I(\\d+)$/)\n    const mQ = key.match(/^Q(\\d+)$/)\n    const bit = val >= 0.5 ? 1 : 0\n    if (mI) reported[key] = { desc: `I-bit-${mI[1]}-1`, value: [bit] }\n    if (mQ) reported[key] = { desc: `Q-bit-${mQ[1]}-1`, value: [bit] }\n}\n\nmsg.payload = { state: { reported } }\nreturn msg",
+    "outputs": 1,
+    "x": 400,
+    "y": 140,
+    "wires": [["logo84_widget"]]
+  },
+
+  {
+    "id": "sim_tp",
+    "type": "device-simulator",
+    "z": "tab_logo84_sim",
+    "name": "logo84tp — 12E / 8S",
+    "topic": "energiam/logo84tp/pub",
+    "template": "{}",
+    "fields": "[{\"key\":\"I1\",\"min\":0,\"max\":1,\"enabled\":true,\"triggerOnChange\":false},{\"key\":\"I2\",\"min\":0,\"max\":1,\"enabled\":true,\"triggerOnChange\":false},{\"key\":\"I3\",\"min\":0,\"max\":1,\"enabled\":true,\"triggerOnChange\":false},{\"key\":\"I4\",\"min\":0,\"max\":1,\"enabled\":true,\"triggerOnChange\":false},{\"key\":\"I5\",\"min\":0,\"max\":1,\"enabled\":true,\"triggerOnChange\":false},{\"key\":\"I6\",\"min\":0,\"max\":1,\"enabled\":true,\"triggerOnChange\":false},{\"key\":\"I7\",\"min\":0,\"max\":1,\"enabled\":true,\"triggerOnChange\":false},{\"key\":\"I8\",\"min\":0,\"max\":1,\"enabled\":true,\"triggerOnChange\":false},{\"key\":\"I9\",\"min\":0,\"max\":1,\"enabled\":true,\"triggerOnChange\":false},{\"key\":\"I10\",\"min\":0,\"max\":1,\"enabled\":true,\"triggerOnChange\":false},{\"key\":\"I11\",\"min\":0,\"max\":1,\"enabled\":true,\"triggerOnChange\":false},{\"key\":\"I12\",\"min\":0,\"max\":1,\"enabled\":true,\"triggerOnChange\":false},{\"key\":\"Q1\",\"min\":0,\"max\":1,\"enabled\":true,\"triggerOnChange\":false},{\"key\":\"Q2\",\"min\":0,\"max\":1,\"enabled\":true,\"triggerOnChange\":false},{\"key\":\"Q3\",\"min\":0,\"max\":1,\"enabled\":true,\"triggerOnChange\":false},{\"key\":\"Q4\",\"min\":0,\"max\":1,\"enabled\":true,\"triggerOnChange\":false},{\"key\":\"Q5\",\"min\":0,\"max\":1,\"enabled\":true,\"triggerOnChange\":false},{\"key\":\"Q6\",\"min\":0,\"max\":1,\"enabled\":true,\"triggerOnChange\":false},{\"key\":\"Q7\",\"min\":0,\"max\":1,\"enabled\":true,\"triggerOnChange\":false},{\"key\":\"Q8\",\"min\":0,\"max\":1,\"enabled\":true,\"triggerOnChange\":false}]",
+    "intervalMode": "random",
+    "intervalFixed": 3000,
+    "intervalMin": 3000,
+    "intervalMax": 8000,
+    "startupDelay": 1500,
+    "debugActive": false,
+    "x": 180,
+    "y": 240,
+    "wires": [["fmt_tp"]]
+  },
+  {
+    "id": "fmt_tp",
+    "type": "function",
+    "z": "tab_logo84_sim",
+    "name": "→ logo84 format",
+    "func": "const logo = msg.topic.split('/')[1] || 'logo84tp'\nconst flat = msg.payload\nconst reported = { '$logotime': Math.floor(Date.now() / 1000) }\n\nfor (const [key, val] of Object.entries(flat)) {\n    const mI = key.match(/^I(\\d+)$/)\n    const mQ = key.match(/^Q(\\d+)$/)\n    const bit = val >= 0.5 ? 1 : 0\n    if (mI) reported[key] = { desc: `I-bit-${mI[1]}-1`, value: [bit] }\n    if (mQ) reported[key] = { desc: `Q-bit-${mQ[1]}-1`, value: [bit] }\n}\n\nmsg.payload = { state: { reported } }\nreturn msg",
+    "outputs": 1,
+    "x": 400,
+    "y": 240,
+    "wires": [["logo84_widget"]]
+  },
+
+  {
+    "id": "sim_pb",
+    "type": "device-simulator",
+    "z": "tab_logo84_sim",
+    "name": "logo84pb — 8E / 4S",
+    "topic": "energiam/logo84pb/pub",
+    "template": "{}",
+    "fields": "[{\"key\":\"I1\",\"min\":0,\"max\":1,\"enabled\":true,\"triggerOnChange\":false},{\"key\":\"I2\",\"min\":0,\"max\":1,\"enabled\":true,\"triggerOnChange\":false},{\"key\":\"I3\",\"min\":0,\"max\":1,\"enabled\":true,\"triggerOnChange\":false},{\"key\":\"I4\",\"min\":0,\"max\":1,\"enabled\":true,\"triggerOnChange\":false},{\"key\":\"I5\",\"min\":0,\"max\":1,\"enabled\":true,\"triggerOnChange\":false},{\"key\":\"I6\",\"min\":0,\"max\":1,\"enabled\":true,\"triggerOnChange\":false},{\"key\":\"I7\",\"min\":0,\"max\":1,\"enabled\":true,\"triggerOnChange\":false},{\"key\":\"I8\",\"min\":0,\"max\":1,\"enabled\":true,\"triggerOnChange\":false},{\"key\":\"Q1\",\"min\":0,\"max\":1,\"enabled\":true,\"triggerOnChange\":false},{\"key\":\"Q2\",\"min\":0,\"max\":1,\"enabled\":true,\"triggerOnChange\":false},{\"key\":\"Q3\",\"min\":0,\"max\":1,\"enabled\":true,\"triggerOnChange\":false},{\"key\":\"Q4\",\"min\":0,\"max\":1,\"enabled\":true,\"triggerOnChange\":false}]",
+    "intervalMode": "random",
+    "intervalFixed": 3000,
+    "intervalMin": 2500,
+    "intervalMax": 7000,
+    "startupDelay": 2500,
+    "debugActive": false,
+    "x": 180,
+    "y": 340,
+    "wires": [["fmt_pb"]]
+  },
+  {
+    "id": "fmt_pb",
+    "type": "function",
+    "z": "tab_logo84_sim",
+    "name": "→ logo84 format",
+    "func": "const logo = msg.topic.split('/')[1] || 'logo84pb'\nconst flat = msg.payload\nconst reported = { '$logotime': Math.floor(Date.now() / 1000) }\n\nfor (const [key, val] of Object.entries(flat)) {\n    const mI = key.match(/^I(\\d+)$/)\n    const mQ = key.match(/^Q(\\d+)$/)\n    const bit = val >= 0.5 ? 1 : 0\n    if (mI) reported[key] = { desc: `I-bit-${mI[1]}-1`, value: [bit] }\n    if (mQ) reported[key] = { desc: `Q-bit-${mQ[1]}-1`, value: [bit] }\n}\n\nmsg.payload = { state: { reported } }\nreturn msg",
+    "outputs": 1,
+    "x": 400,
+    "y": 340,
+    "wires": [["logo84_widget"]]
+  }
+]

@@ -1,0 +1,52 @@
+{
+  "name": "node-red-dashboard-2-logo84-energiam",
+  "version": "0.1.0",
+  "description": "Widget Dashboard 2.0 para Siemens LOGO! 8.4. Visualizador SVG dinámico con E/S en tiempo real, tabla de estados multi-dispositivo y etiquetas de pines editables. Parte del ecosistema EnergIAM.",
+  "keywords": [
+    "node-red",
+    "energiam",
+    "dashboard",
+    "siemens",
+    "logo",
+    "plc",
+    "iiot",
+    "node-red-dashboard-2"
+  ],
+  "author": "EnergIAM EcoTouch",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/energiamEcoTouch/node-red-dashboard-2-logo84-energiam.git"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "node-red": {
+    "version": ">=3.0.0",
+    "nodes": {
+      "ui-logo84": "nodes/ui-logo84.js"
+    }
+  },
+  "node-red-dashboard-2": {
+    "version": "1.0.0",
+    "widgets": {
+      "ui-logo84": {
+        "output": "ui-logo84.umd.js",
+        "component": "UILogo84"
+      }
+    }
+  },
+  "scripts": {
+    "build": "vite build",
+    "dev": "vite build --watch"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^4.5.0",
+    "vite": "^5.0.12",
+    "vite-plugin-css-injected-by-js": "^3.3.0"
+  },
+  "peerDependencies": {
+    "@flowfuse/node-red-dashboard": ">=1.0.0"
+  }
+}

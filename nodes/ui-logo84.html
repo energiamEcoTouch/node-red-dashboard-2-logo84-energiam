@@ -1,0 +1,140 @@
+<script type="text/javascript">
+(function () {
+    RED.nodes.registerType('ui-logo84', {
+        category:     'EnergIAM',
+        color:        '#27F555',
+        icon:         'energiam.png',
+        inputs:       1,
+        outputs:      0,
+        paletteLabel: 'logo84',
+
+        label: function () {
+            return this.name || 'logo84'
+        },
+        labelStyle: function () {
+            return this.name ? 'node_label_italic' : ''
+        },
+
+        defaults: {
+            name:         { value: '' },
+            group:        { value: '', type: 'ui-group', required: true },
+            order:        { value: 0 },
+            width:        { value: 12 },
+            height:       { value: 10 },
+            topicPrefix:  { value: 'energiam' },
+            throttle:     { value: 10,  validate: RED.validators.number() },
+            onlineTimeout:{ value: 60,  validate: RED.validators.number() },
+            defaultNIn:   { value: 8,   validate: RED.validators.number() },
+            defaultNOut:  { value: 4,   validate: RED.validators.number() },
+            lcdPrefix:    { value: '' }
+        },
+
+        oneditprepare: function () {}
+    })
+})()
+</script>
+
+<script type="text/html" data-template-name="ui-logo84">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Nombre</label>
+        <input type="text" id="node-input-name" placeholder="logo84">
+    </div>
+    <div class="form-row">
+        <label for="node-input-group"><i class="fa fa-table"></i> Grupo</label>
+        <input type="text" id="node-input-group">
+    </div>
+    <div class="form-row">
+        <label for="node-input-width"><i class="fa fa-arrows-h"></i> Tamaño</label>
+        <input type="number" id="node-input-width"  placeholder="12" style="width:60px"> columnas &nbsp;
+        <input type="number" id="node-input-height" placeholder="10" style="width:60px"> filas
+    </div>
+
+    <hr style="margin:16px 0">
+
+    <div class="form-row">
+        <label for="node-input-topicPrefix" style="width:180px">
+            <i class="fa fa-sitemap"></i> Prefijo topic MQTT
+        </label>
+        <input type="text" id="node-input-topicPrefix" placeholder="energiam" style="width:180px">
+        <span style="margin-left:8px;font-size:11px;color:#888">
+            el device se toma del segmento siguiente al prefijo<br>
+            ej: prefijo <code>energiam</code> → topic <code>energiam/<b style="color:#c00">logo84pb</b>/pub</code>
+        </span>
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-throttle" style="width:180px">
+            <i class="fa fa-clock-o"></i> Throttle heartbeat (s)
+        </label>
+        <input type="number" id="node-input-throttle" min="1" max="300" style="width:60px">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-onlineTimeout" style="width:180px">
+            <i class="fa fa-wifi"></i> Timeout offline (s)
+        </label>
+        <input type="number" id="node-input-onlineTimeout" min="10" max="3600" style="width:60px">
+    </div>
+
+    <div class="form-row">
+        <label style="width:180px"><i class="fa fa-microchip"></i> Pines por defecto</label>
+        <input type="number" id="node-input-defaultNIn"  min="1" max="20" style="width:56px" title="Entradas">
+        <span style="margin:0 6px;color:#888;font-size:12px">E</span>
+        <input type="number" id="node-input-defaultNOut" min="1" max="16" style="width:56px" title="Salidas">
+        <span style="margin-left:6px;color:#888;font-size:12px">S</span>
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-lcdPrefix" style="width:180px">
+            <i class="fa fa-font"></i> Prefijo LCD
+        </label>
+        <input type="text" id="node-input-lcdPrefix" placeholder="EnergIAM" style="width:180px">
+        <span style="margin-left:6px;font-size:11px;color:#888">vacío = solo nombre del device</span>
+    </div>
+</script>
+
+<script type="text/html" data-help-name="ui-logo84">
+    <p>
+        Widget <strong>Dashboard 2.0</strong> para visualización en tiempo real de dispositivos
+        <strong>Siemens LOGO! 8.4</strong>. Parte del ecosistema <strong>EnergIAM</strong>.
+    </p>
+
+    <h3>Conexión</h3>
+    <pre>[mqtt in — energiam/#] ──▶ [logo84]</pre>
+    <p>
+        El nodo <code>mqtt in</code> debe suscribirse al topic <code>energiam/#</code>
+        con QoS 2. No se necesita ningún nodo función intermedio.
+    </p>
+
+    <h3>Formato del mensaje MQTT esperado</h3>
+    <pre>topic:   "energiam/logo84pb/pub"
+payload: {
+  "state": {
+    "reported": {
+      "$logotime": 1781987649,
+      "entrada1": { "desc": "I-bit-1-1", "value": [1] },
+      "salida1":  { "desc": "Q-bit-1-1", "value": [0] }
+    }
+  }
+}</pre>
+
+    <h3>Lo que muestra el widget</h3>
+    <ul>
+        <li><strong>Tabla de estados</strong>: todos los LOGO! detectados, estado online/offline y última vez visto. Clic en una fila para seleccionar el dispositivo.</li>
+        <li><strong>SVG del PLC</strong>: visualización dinámica del LOGO! seleccionado con pines I/Q coloreados en tiempo real. Configurable cantidad de entradas y salidas.</li>
+        <li><strong>Tabla I/O</strong>: etiquetas editables para cada pin del dispositivo seleccionado. Se guardan automáticamente.</li>
+    </ul>
+
+    <h3>Detección de dispositivos</h3>
+    <p>
+        Los dispositivos se detectan automáticamente del topic MQTT.
+        El nombre del logo se extrae de <code>energiam/<b>logo84pb</b>/pub</code>.
+        No hay configuración manual de dispositivos.
+    </p>
+
+    <h3>Dependencias</h3>
+    <ul>
+        <li>Node-RED ≥ 3.0.0</li>
+        <li>@flowfuse/node-red-dashboard ≥ 1.0.0</li>
+    </ul>
+</script>
