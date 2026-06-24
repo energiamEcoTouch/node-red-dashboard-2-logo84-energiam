@@ -12,6 +12,8 @@ Part of the **EnergIAM** IIoT ecosystem.
 
 ## Screenshots
 
+![Node icon](icons/icon.png)
+
 ![Node-RED flow](icons/Captura1.PNG)
 *Example flow — three simulated LOGO! devices connected to a single `ui-logo84` node*
 
