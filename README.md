@@ -18,6 +18,9 @@ Part of the **EnergIAM** IIoT ecosystem.
 ![Widget dashboard](icons/Captura2.PNG)
 *Real-time SVG panel with multi-device status table*
 
+![Status table](icons/Captura4.PNG)
+*Multi-device status table — online/offline detection with last-seen timestamp*
+
 ![I/O pin labels](icons/Captura3.PNG)
 *Editable pin label table per device*
 
