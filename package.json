@@ -1,6 +1,6 @@
 {
   "name": "node-red-dashboard-2-logo84-energiam",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Widget Dashboard 2.0 para Siemens LOGO! 8.4. Visualizador SVG dinámico con E/S en tiempo real, tabla de estados multi-dispositivo y etiquetas de pines editables. Parte del ecosistema EnergIAM.",
   "keywords": [
     "node-red",
