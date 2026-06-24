@@ -10,6 +10,19 @@ Part of the **EnergIAM** IIoT ecosystem.
 
 ---
 
+## Screenshots
+
+![Node-RED flow](icons/Captura1.PNG)
+*Example flow — three simulated LOGO! devices connected to a single `ui-logo84` node*
+
+![Widget dashboard](icons/Captura2.PNG)
+*Real-time SVG panel with multi-device status table*
+
+![I/O pin labels](icons/Captura3.PNG)
+*Editable pin label table per device*
+
+---
+
 ## Overview
 
 `ui-logo84` is a single Node-RED node that monitors **multiple LOGO! 8.4 devices simultaneously** from a single MQTT subscription. Each device is detected automatically from the topic structure — no manual device configuration required.
