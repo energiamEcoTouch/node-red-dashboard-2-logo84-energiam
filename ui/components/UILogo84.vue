@@ -216,7 +216,7 @@ export default {
       if (!wrap) return
 
       const W      = Math.max(560, (Math.max(nIn, nOut) + 1) * 30 + 80)
-      const H      = 340
+      const H      = 360
       const bodyX  = 40, bodyY  = 70, bodyW = W - 80, bodyH = 220
       const inSpacing  = bodyW / (nIn  + 1)
       const outSpacing = bodyW / (nOut + 1)
