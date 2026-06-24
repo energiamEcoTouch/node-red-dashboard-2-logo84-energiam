@@ -132,7 +132,6 @@ export default {
     },
 
     selectLogo (logo) {
-      console.log('[LOGO84] selectLogo', logo)
       this.selectedLogo = logo
       this.send('select_logo', logo)
     },
@@ -156,8 +155,6 @@ export default {
     // ── Procesar mensajes del backend ────────────────────────────────
     handleMsg (payload) {
       if (!payload) return
-      console.log('[LOGO84] handleMsg type=', payload.type, 'logoData.slot=', payload.logoData && payload.logoData.slot, 'selectedLogo=', this.selectedLogo)
-
       // restore_state: llega solo al reconectar (get_state). Restaura selección.
       if (payload.type === 'restore_state') {
         if (Array.isArray(payload.tableData)) this.tableData = payload.tableData
