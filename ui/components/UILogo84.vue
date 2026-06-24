@@ -577,17 +577,19 @@ export default {
 .l84-table-io th,
 .l84-table-io td {
   text-align: left;
-  padding: 7px 12px;
-  border-bottom: 1px solid #2a2a2a;
+  padding: 8px 14px;
+  border-bottom: 1px solid #333;
 }
 .l84-table-io th {
-  color: #888;
-  font-weight: 500;
+  color: #ccc;
+  font-weight: 600;
+  font-size: 13px;
 }
 .l84-pin-id {
   font-family: monospace;
-  color: #aaa;
+  color: #ccc;
   width: 60px;
+  font-size: 13px;
 }
 .l84-table-io input {
   width: 100%;
@@ -596,8 +598,11 @@ export default {
   border-radius: 4px;
   color: #fff;
   padding: 5px 8px;
-  font-size: 12px;
+  font-size: 13px;
   box-sizing: border-box;
+}
+.l84-table-io input::placeholder {
+  color: #666;
 }
 .l84-table-io input:focus {
   outline: none;
